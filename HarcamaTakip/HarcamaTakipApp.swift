@@ -13,12 +13,9 @@ struct HarcamaTakipApp: App {
     
     var body: some Scene {
         WindowGroup {
-            // Navigasyonun çalışabilmesi için her şeyi bir NavigationView içine alıyoruz.
-            // Bu sayede sidebar'dan detay sayfasına geçiş çalışacak.
-            NavigationView {
-                AnaEkranView()
-            }
-            .environmentObject(depo) // Veri deposunu tüm alt görünümlere dağıt.
+            // NavigationView'i buradan kaldırdık.
+            AnaEkranView()
+                .environmentObject(depo)
         }
     }
 }
