@@ -11,33 +11,48 @@ struct SidebarView: View {
     @EnvironmentObject var depo: HarcamaDeposu
     
     var body: some View {
-        // Menünün içeriğini bir liste olarak düzenliyoruz.
         List {
-            // Başlık
-            Text("Geçmiş Aylar")
-                .font(.headline)
-                .padding(.top)
-
-            if depo.gecmisAyGruplari.isEmpty {
-                Text("Geçmiş aylara ait harcama bulunamadı.")
-                    .foregroundColor(.gray)
-                    .padding()
-            } else {
-                // Her bir geçmiş ay grubu için bir satır oluşturuyoruz.
-                ForEach(depo.gecmisAyGruplari) { grup in
-                    // Bu NavigationLink sayesinde bir aya tıklandığında detay sayfası açılacak.
-                    NavigationLink(destination: AyDetayView(grup: grup)) {
-                        HStack {
-                            Text(grup.ayinIlkGunu.formatla())
-                                .fontWeight(.bold)
-                            Spacer()
-                            Text("\(grup.toplamTutar, specifier: "%.2f") ₺")
-                                .foregroundColor(.secondary)
+            // Mevcut "Geçmiş Aylar" bölümünü bir Section içine alıyoruz.
+            Section(header: Text("Geçmiş Aylar").font(.headline)) {
+                if depo.gecmisAyGruplari.isEmpty {
+                    Text("Geçmiş aylara ait harcama bulunamadı.")
+                        .foregroundColor(.gray)
+                } else {
+                    ForEach(depo.gecmisAyGruplari) { grup in
+                        NavigationLink(destination: AyDetayView(grup: grup)) {
+                            HStack {
+                                Text(grup.ayinIlkGunu.formatla())
+                                    .fontWeight(.bold)
+                                Spacer()
+                                Text("\(grup.toplamTutar, specifier: "%.2f") ₺")
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
             }
+            
+            // --- YENİ EKLENEN KISIM BURASI ---
+            // Listenin en altına imzanı eklemek için yeni bir Section oluşturuyoruz.
+            Section {
+                HStack {
+                    Spacer() // Metni ortalamak için
+                    VStack {
+                        Text("Created by")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text("Selim Bedirhan Öztürk")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer() // Metni ortalamak için
+                }
+            }
+            // Bu bölümün arkaplanını ve kenarlıklarını kaldırarak daha temiz görünmesini sağlıyoruz.
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
         }
-        .listStyle(SidebarListStyle()) // Menüye daha uygun bir stil veriyoruz.
+        .listStyle(SidebarListStyle())
     }
 }
