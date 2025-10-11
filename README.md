@@ -8,7 +8,6 @@ Kişisel harcamaları kolayca takip etmek için geliştirilmiş, modern ve sade 
 |:---:|:---:|:---:|
 | <img src="https://raw.githubusercontent.com/selimbedirhan/HarcamaTakip/main/anaekran.PNG" width="200"> | <img src="https://raw.githubusercontent.com/selimbedirhan/HarcamaTakip/main/harcama_ekleme.PNG" width="200"> | <img src="https://raw.githubusercontent.com/selimbedirhan/HarcamaTakip/main/yan_menu.PNG" width="200"> |
 
-
 ## ✨ Özellikler
 
 - **Aylık Harcama Takibi:** Harcamalar ana ekranda içinde bulunulan aya göre filtrelenir.
@@ -43,10 +42,6 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları i
     ```
 3.  `HarcamaTakip.xcodeproj` dosyasını Xcode ile açın.
 4.  Bir simülatör veya fiziksel bir cihaz seçerek **Run (▶)** butonuna basın.
-
-## 📄 Lisans
-
-Bu proje MIT Lisansı ile lisanslanmıştır. Detaylar için `LICENSE` dosyasına göz atabilirsiniz.
 
 ## 📬 İletişim
 
