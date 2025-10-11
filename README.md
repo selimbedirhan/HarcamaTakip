@@ -4,8 +4,9 @@ Kişisel harcamaları kolayca takip etmek için geliştirilmiş, modern ve sade 
 
 ## 📱 Ekran Görüntüleri
 
-| Ana Ekran | Harcama Ekleme | Yan Menü (Geçmiş Aylar) 
-| <img src="https://github.com/selimbedirhan/HarcamaTakip/blob/main/anaekran.PNG" width="200"> | <img src="https://github.com/selimbedirhan/HarcamaTakip/blob/main/harcama_ekleme.PNG" width="200"> | <img src="https://github.com/selimbedirhan/HarcamaTakip/blob/main/yan_menu.PNG" width="200"> 
+| Ana Ekran | Harcama Ekleme | Yan Menü (Geçmiş Aylar) |
+|:---:|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/selimbedirhan/HarcamaTakip/main/anaekran.PNG" width="200"> | <img src="https://raw.githubusercontent.com/selimbedirhan/HarcamaTakip/main/harcama_ekleme.PNG" width="200"> | <img src="https://raw.githubusercontent.com/selimbedirhan/HarcamaTakip/main/yan_menu.PNG" width="200"> |
 
 
 ## ✨ Özellikler
