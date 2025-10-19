@@ -11,22 +11,28 @@ struct AyDetayView: View {
     let grup: AylikHarcamaGrubu
     
     var body: some View {
-        // Harcamaları tarihe göre azalan sırada listeler.
         List(grup.harcamalar.sorted(by: { $0.tarih > $1.tarih })) { harcama in
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(harcama.aciklama)
-                        .fontWeight(.semibold)
-                    Text(harcama.tarih, style: .date)
-                        .font(.caption)
-                        .foregroundColor(.gray)
+            // --- DEĞİŞİKLİK BURADA ---
+            // Buradaki satırları da "HarcamaDuzenleView" ekranına giden bir linke dönüştürdük.
+            NavigationLink(destination: HarcamaDuzenleView(harcama: harcama)) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(harcama.aciklama)
+                            .fontWeight(.semibold)
+                        Text(harcama.tarih, style: .date)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
+                    Text("\(harcama.tutar, specifier: "%.2f") ₺")
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.blue)
                 }
-                Spacer()
-                Text("\(harcama.tutar, specifier: "%.2f") ₺")
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.blue)
             }
+            // ---
         }
         .navigationTitle(grup.ayinIlkGunu.formatla())
+        // Başlığın küçük ve sabit kalmasını sağlayarak daha fazla harcamanın görünmesini sağlıyoruz.
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

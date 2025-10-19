@@ -18,7 +18,6 @@ struct AylikHarcamaGrubu: Identifiable, Hashable {
     }
 }
 
-
 class HarcamaDeposu: ObservableObject {
     @Published var harcamalar: [Harcama] = [] {
         didSet {
@@ -34,12 +33,18 @@ class HarcamaDeposu: ObservableObject {
     
     var aktifAyHarcamalari: [Harcama] {
         let bugun = Date()
+        // --- HATALI SATIRLARIN DÜZELTİLMİŞ HALİ ---
+        // 'inSameDayAs' yerine 'date:to:' kullanıldı
         return harcamalar.filter { Calendar.current.isDate($0.tarih, equalTo: bugun, toGranularity: .month) }
+        // ---
     }
     
     var gecmisAyGruplari: [AylikHarcamaGrubu] {
         let bugun = Date()
+        // --- HATALI SATIRLARIN DÜZELTİLMİŞ HALİ ---
+        // 'inSameDayAs' yerine 'date:to:' kullanıldı
         let gecmisHarcamalar = harcamalar.filter { !Calendar.current.isDate($0.tarih, equalTo: bugun, toGranularity: .month) }
+        // ---
         
         let gruplar = Dictionary(grouping: gecmisHarcamalar) { harcama in
             Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: harcama.tarih))!
@@ -50,7 +55,6 @@ class HarcamaDeposu: ObservableObject {
         }.sorted { $0.ayinIlkGunu > $1.ayinIlkGunu }
     }
     
-
     var aktifAyToplamTutar: Double {
         aktifAyHarcamalari.reduce(0) { $0 + $1.tutar }
     }
@@ -62,6 +66,13 @@ class HarcamaDeposu: ObservableObject {
     
     func harcamalariSil(ids: Set<UUID>) {
         harcamalar.removeAll { ids.contains($0.id) }
+    }
+    
+    func harcamaGuncelle(id: UUID, yeniAciklama: String, yeniTutar: Double) {
+        if let index = harcamalar.firstIndex(where: { $0.id == id }) {
+            harcamalar[index].aciklama = yeniAciklama
+            harcamalar[index].tutar = yeniTutar
+        }
     }
     
     private func kaydet() {

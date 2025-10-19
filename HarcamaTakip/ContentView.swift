@@ -11,12 +11,11 @@ struct ContentView: View {
     @EnvironmentObject var depo: HarcamaDeposu
     @State private var eklemeEkraniGoster = false
     
-    // AnaEkranView'daki 'isSidebarAcik' durumuna bağlanarak sidebar'ın açılıp kapanmasını tetikler.
     @Binding var isSidebarAcik: Bool
     
     var body: some View {
         List {
-            // Aktif ayda harcama varsa gösterilecek olan toplam gider kartı.
+            // Toplam gider kartı
             if !depo.aktifAyHarcamalari.isEmpty {
                 Section {
                     HStack(spacing: 15) {
@@ -40,31 +39,35 @@ struct ContentView: View {
                 }
             }
             
-            // Harcama listesi veya boş ise placeholder metni.
+            // Harcama listesi
             if depo.aktifAyHarcamalari.isEmpty {
                 Text("Bu ay hiç harcama girmediniz.\nEklemek için '+' butonuna dokunun.")
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gray)
                     .padding()
             } else {
+                // --- DEĞİŞİKLİK BURADA ---
                 ForEach(depo.aktifAyHarcamalari) { harcama in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(harcama.aciklama)
-                                .fontWeight(.semibold)
-                            Text(harcama.tarih, style: .date)
-                                .font(.caption)
-                                .foregroundColor(.gray)
+                    // Her bir satırı, hedefi "HarcamaDuzenleView" olan bir linke dönüştürdük.
+                    NavigationLink(destination: HarcamaDuzenleView(harcama: harcama)) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(harcama.aciklama)
+                                    .fontWeight(.semibold)
+                                Text(harcama.tarih, style: .date)
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                            Text("\(harcama.tutar, specifier: "%.2f") ₺")
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.blue)
                         }
-                        Spacer()
-                        Text("\(harcama.tutar, specifier: "%.2f") ₺")
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.blue)
+                        .padding(.vertical, 4)
                     }
-                    .padding(.vertical, 4)
                 }
-                // Listede sola kaydırarak silme işlevselliğini ekler.
-                .onDelete(perform: harcamaSil)
+                .onDelete(perform: harcamaSil) // Silme özelliği hala çalışmaya devam edecek.
+                // ---
             }
         }
         .listStyle(InsetGroupedListStyle())
@@ -91,8 +94,6 @@ struct ContentView: View {
         }
     }
     
-    // Silinmek üzere seçilen elemanların index'lerini kullanarak,
-    // ana veri kaynağından ilgili harcamaları ID'lerine göre güvenli bir şekilde siler.
     func harcamaSil(at offsets: IndexSet) {
         let harcamalarToDelete = offsets.map { depo.aktifAyHarcamalari[$0] }
         let idlerToDelete = Set(harcamalarToDelete.map { $0.id })
